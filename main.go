@@ -121,11 +121,14 @@ func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "application/json")
 	id := mux.Vars(req)["id"]
 	id_int, _ := strconv.Atoi(id)
+
 	if _, ok := database[id_int]; ok {
 		resp.WriteHeader(http.StatusOK)
-		enc := json.NewEncoder(resp)
-		enc.Encode(database[id_int])
-	}
+    delete(database, id_int)
+	} else {
+		resp.WriteHeader(http.StatusNotFound)
+  }
+  json.NewEncoder(resp).Encode(database)
 }
 
 func setupRouter() *mux.Router {

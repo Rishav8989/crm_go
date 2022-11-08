@@ -1,11 +1,11 @@
 #!/bin/sh
 
 
-echo "POST /customer - add after deletion Test User"
+echo "DELETE /customer - Delete first customer"
 curl -XDELETE localhost:3000/customer/1
 
 echo ""
-echo "POST /customer - add after deletion Test User"
+echo "POST /customer - add after deletion Test User, test user should have index 1"
 curl --data "{ \"name\":\"Test User\", \
   \"phone\":\"555-456\", \
   \"contacted\":false, \
@@ -14,3 +14,11 @@ curl --data "{ \"name\":\"Test User\", \
   --header 'Content-Type: application/json' \
   localhost:3000/customer
 
+echo "POST /customer - add after deletion Test User, second test user should have index 4"
+curl --data "{ \"name\":\"Test User 2\", \
+  \"phone\":\"555-4562\", \
+  \"contacted\":true, \
+  \"role\":\"Another new Lead\", \
+  \"email\":\"testuser2@udacity.com\" }" \
+  --header 'Content-Type: application/json' \
+  localhost:3000/customer
