@@ -1,0 +1,21 @@
+#!/bin/sh
+
+
+echo "get /"
+curl -i localhost:3000/
+
+echo ""
+echo "get customer 1"
+curl -i localhost:3000/customer/1
+
+echo ""
+echo "get customer 2"
+curl -i localhost:3000/customer/2
+
+echo ""
+echo "get customer 3"
+curl -i localhost:3000/customer/3
+
+echo ""
+echo "get non existing customer 4"
+curl -i localhost:3000/customer/4
