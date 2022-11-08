@@ -43,13 +43,46 @@ var database = map[int]Customer {
   },
 }
 
+func getCustomer(resp http.ResponseWriter, req *http.Request) {
+  
+}
+
+
+func getCustomers(resp http.ResponseWriter, req *http.Request) {
+}
+
+
+func createCustomer(resp http.ResponseWriter, req *http.Request) {
+}
+
+
+func updateCustomer(resp http.ResponseWriter, req *http.Request) {
+}
+
+
+func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
+}
+
+func setupRouter(r *mux.Router) {
+  r.HandleFunc("/", getCustomers).Methods("GET")
+  r.HandleFunc("/customer/{id}", getCustomer).Methods("GET")
+
+  r.HandleFunc("/customer", updateCustomer).Methods("PUT")
+
+  r.HandleFunc("/customer", createCustomer).Methods("POST")
+  r.HandleFunc("/customer/{id}", deleteCustomer).Methods("DELETE")
+}
+
 func main() {
   
   port := 3000
   router := mux.NewRouter()
+  fmt.Printf("type: %T\n", router)
+
+  setupRouter(router)
 
   fmt.Println(database)
   server_port := fmt.Sprintf(":%v", port)
-  fmt.Println("Server is available at localhost:",server_port)
+  fmt.Println("Server is available at localhost:", server_port)
   http.ListenAndServe(server_port, router)
 }
