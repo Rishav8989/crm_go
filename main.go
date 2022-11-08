@@ -50,11 +50,14 @@ func getCustomer(resp http.ResponseWriter, req *http.Request) {
   id := mux.Vars(req)["id"]
   id_int, _ := strconv.Atoi(id)
   
-
   if _, ok := database[id_int]; ok {
     resp.WriteHeader(http.StatusOK)
     enc := json.NewEncoder(resp)
     enc.Encode(database[id_int])
+  } else {
+    resp.WriteHeader(http.StatusNotFound)
+    enc := json.NewEncoder(resp)
+    enc.Encode(database)
   }
 }
 
