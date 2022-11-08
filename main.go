@@ -78,7 +78,8 @@ func updateCustomer(resp http.ResponseWriter, req *http.Request) {
 func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
 }
 
-func setupRouter(r *mux.Router) {
+func setupRouter() *mux.Router {
+  r := mux.NewRouter()
   r.HandleFunc("/", getCustomers).Methods("GET")
   r.HandleFunc("/customer/{id}", getCustomer).Methods("GET")
 
@@ -86,18 +87,14 @@ func setupRouter(r *mux.Router) {
 
   r.HandleFunc("/customer", createCustomer).Methods("POST")
   r.HandleFunc("/customer/{id}", deleteCustomer).Methods("DELETE")
+  return r
 }
 
 func main() {
   
   port := 3000
-  router := mux.NewRouter()
-  fmt.Printf("type: %T\n", router)
-
-  setupRouter(router)
-
-  fmt.Println(database)
   server_port := fmt.Sprintf(":%v", port)
+
   fmt.Println("Server is available at localhost:", server_port)
-  http.ListenAndServe(server_port, router)
+  http.ListenAndServe(server_port, setupRouter())
 }
