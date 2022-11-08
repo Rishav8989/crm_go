@@ -47,6 +47,7 @@ var database = map[int]Customer {
 
 func getCustomer(resp http.ResponseWriter, req *http.Request) {
 
+  resp.Header().Set("Content-type", "application/json")
   id := mux.Vars(req)["id"]
   id_int, _ := strconv.Atoi(id)
   
