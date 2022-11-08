@@ -1,0 +1,16 @@
+#!/bin/sh
+
+
+echo "POST /customer - add after deletion Test User"
+curl -XDELETE localhost:3000/customer/1
+
+echo ""
+echo "POST /customer - add after deletion Test User"
+curl --data "{ \"name\":\"Test User\", \
+  \"phone\":\"555-456\", \
+  \"contacted\":false, \
+  \"role\":\"New Lead\", \
+  \"email\":\"testuser@udacity.com\" }" \
+  --header 'Content-Type: application/json' \
+  localhost:3000/customer
+
