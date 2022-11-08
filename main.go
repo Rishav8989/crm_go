@@ -71,6 +71,8 @@ func getCustomers(resp http.ResponseWriter, req *http.Request) {
 
 
 func createCustomer(resp http.ResponseWriter, req *http.Request) {
+  resp.Header().Set("Content-type", "application/json")
+  fmt.Println("hitting createCustomer")
 }
 
 
