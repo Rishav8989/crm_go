@@ -46,55 +46,43 @@ var database = map[int]Customer{
 	},
 }
 
-var database = map[int]Customer {
-   1: Customer{
-      ID: 1,
-      Name: "Michael J",
-      Role: "Student",
-      Email: "Michael@udacity.com",
-      Phone: "555-Nase",
-      Contacted: true,
-  },
-   2: Customer{
-      ID: 2,
-      Name: "John Doe",
-      Role: "Engineer",
-      Email: "JohnD@udacity.com",
-      Phone: "555-123456789",
-      Contacted: false,
-  },
-   3: Customer{
-      ID: 3,
-      Name: "Jane Doe",
-      Role: "Data Scientist",
-      Email: "JaneD@udacity.com",
-      Phone: "555-97654321",
-      Contacted: false,
-  },
+func findNextIndex() int {
+	index := 1
+
+	for {
+		if val, ok := database[index]; ok {
+			fmt.Printf("found index: %v with value: %v - ok: %v\n", index, val, ok)
+		} else {
+			fmt.Printf("Did not find find index: %v - ok: %v\n", index, val, ok)
+			break
+		}
+		index++
+	}
+	return index
+}
+
+func addNewCustomer(customer *Customer) {
+
+	new_index := findNextIndex()
+	customer.ID = new_index
+	database[new_index] = *customer
 }
 
 func getCustomer(resp http.ResponseWriter, req *http.Request) {
 
-  resp.Header().Set("Content-type", "application/json")
-  id := mux.Vars(req)["id"]
-  id_int, _ := strconv.Atoi(id)
-  
-  if _, ok := database[id_int]; ok {
-    resp.WriteHeader(http.StatusOK)
-    enc := json.NewEncoder(resp)
-    enc.Encode(database[id_int])
-  } else {
-    resp.WriteHeader(http.StatusNotFound)
-    enc := json.NewEncoder(resp)
-    enc.Encode(database)
-  }
-}
+	resp.Header().Set("Content-type", "application/json")
+	id := mux.Vars(req)["id"]
+	id_int, _ := strconv.Atoi(id)
 
-
-func getCustomers(resp http.ResponseWriter, req *http.Request) {
-  resp.Header().Set("Content-type", "application/json")
-  resp.WriteHeader(http.StatusOK)
-  json.NewEncoder(resp).Encode(database)
+	if _, ok := database[id_int]; ok {
+		resp.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(resp)
+		enc.Encode(database[id_int])
+	} else {
+		resp.WriteHeader(http.StatusNotFound)
+		enc := json.NewEncoder(resp)
+		enc.Encode(database)
+	}
 }
 
 func getCustomers(resp http.ResponseWriter, req *http.Request) {
@@ -118,8 +106,26 @@ func createCustomer(resp http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(resp).Encode(database)
 }
 
+func updateCustomer(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Content-type", "application/json")
+	id := mux.Vars(req)["id"]
+	id_int, _ := strconv.Atoi(id)
+	if _, ok := database[id_int]; ok {
+		resp.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(resp)
+		enc.Encode(database[id_int])
+	}
+}
 
 func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Content-type", "application/json")
+	id := mux.Vars(req)["id"]
+	id_int, _ := strconv.Atoi(id)
+	if _, ok := database[id_int]; ok {
+		resp.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(resp)
+		enc.Encode(database[id_int])
+	}
 }
 
 func setupRouter() *mux.Router {
