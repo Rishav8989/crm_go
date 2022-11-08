@@ -64,6 +64,9 @@ func getCustomer(resp http.ResponseWriter, req *http.Request) {
 
 
 func getCustomers(resp http.ResponseWriter, req *http.Request) {
+  resp.Header().Set("Content-type", "application/json")
+  resp.WriteHeader(http.StatusOK)
+  json.NewEncoder(resp).Encode(database)
 }
 
 
