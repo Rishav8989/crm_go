@@ -4,6 +4,8 @@ import (
   "fmt"
   "net/http"
   "github.com/gorilla/mux"
+  "strconv"
+  "encoding/json"
 )
 
 type Customer struct {
@@ -44,7 +46,16 @@ var database = map[int]Customer {
 }
 
 func getCustomer(resp http.ResponseWriter, req *http.Request) {
+
+  id := mux.Vars(req)["id"]
+  id_int, _ := strconv.Atoi(id)
   
+
+  if _, ok := database[id_int]; ok {
+    resp.WriteHeader(http.StatusOK)
+    enc := json.NewEncoder(resp)
+    enc.Encode(database[id_int])
+  }
 }
 
 
