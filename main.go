@@ -96,14 +96,24 @@ func createCustomer(resp http.ResponseWriter, req *http.Request) {
 
 	bytes, _ := ioutil.ReadAll(req.Body)
 
-	customer := &Customer{}
-	if err := json.Unmarshal(bytes, customer); err != nil {
-		fmt.Println("Can't unmarshal given customer:", bytes)
-	}
+	customer := unmarshalCustomerData(bytes)
 
-	addNewCustomer(customer)
+  if customer != nil {
+    addNewCustomer(customer)
+    json.NewEncoder(resp).Encode(database)
+  } else {
+    resp.WriteHeader(http.StatusBadRequest)
+  }
+}
 
-	json.NewEncoder(resp).Encode(database)
+func unmarshalCustomerData(sent_data []byte) *Customer {
+    customer := &Customer{}
+    if err := json.Unmarshal(sent_data, customer); err != nil {
+      fmt.Println("Can't unmarshal given customer:", sent_data)
+      return nil
+    }
+
+    return customer
 }
 
 func updateCustomer(resp http.ResponseWriter, req *http.Request) {
