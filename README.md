@@ -17,9 +17,14 @@ This customer data can be manipulated in a CRUD session, meaning:
 - customer data can be **updated**
 - customer data can be **deleted**
 
+A customer has the following fields in the database:
+- name (A customers first and last name - String)
+- phone (Contact information about the customer - String)
+- contacted (A yes/no - true/false entry about whether the customer has been contacted yet)
+- email (Contact information about the customer - String)
+- role (Some form of details about the customer - String)
 
 ## Available Endpoints
-
 
 - localhost:3000/customers via "GET" method to **retrieve a list** of existing customers
 - localhost:3000/customers/{id} via "GET" method to **retrieve data** about a specific customer
@@ -38,3 +43,17 @@ execution follows an echo statement that states against which HTTP method is use
 test should achieve.
 So:  
 *Be aware: when running multiple shell scripts, without restarting the server in between, the results may differ from what the echo statement assumes.*
+
+## Usage
+The usage of the endpoints can be derived from the test shell scripts.
+
+### Example 
+#### Create new customer
+curl --data "{ \"name\":\"Test User\", \
+  \"phone\":\"555-456\", \
+  \"contacted\":false, \
+  \"role\":\"New Lead\", \
+  \"email\":\"testuser@udacity.com\" }" \
+  --header 'Content-Type: application/json' \
+  localhost:3000/customers
+
