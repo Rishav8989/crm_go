@@ -5,6 +5,7 @@
 ## TLDR;
 Just run the command `go run main.go` to start an HTTP server at
 localhost:3000.
+Alternative: `go build && ./crm`
 (Seem like `go run` without a file name [never worked](https://groups.google.com/g/golang-nuts/c/Uc6FurMDtQc?pli=1).)
 
 ## Introduction
