@@ -1,12 +1,12 @@
 #!/bin/sh
 
 
-echo "POST /customer - Test User"
+echo "POST /customers - Test User"
 curl --data "{ \"name\":\"Test User\", \
   \"phone\":\"555-456\", \
   \"contacted\":false, \
   \"role\":\"New Lead\", \
   \"email\":\"testuser@udacity.com\" }" \
   --header 'Content-Type: application/json' \
-  localhost:3000/customer
+  localhost:3000/customers
 

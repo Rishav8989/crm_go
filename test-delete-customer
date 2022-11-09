@@ -1,24 +1,24 @@
 #!/bin/sh
 
 
-echo "DELETE /customer - Delete first customer"
-curl -XDELETE localhost:3000/customer/1
+echo "DELETE /customers - Delete first customer"
+curl -XDELETE localhost:3000/customers/1
 
 echo ""
-echo "POST /customer - add after deletion Test User, test user should have index 1"
+echo "POST /customers - add after deletion Test User, test user should have index 1"
 curl --data "{ \"name\":\"Test User\", \
   \"phone\":\"555-456\", \
   \"contacted\":false, \
   \"role\":\"New Lead\", \
   \"email\":\"testuser@udacity.com\" }" \
   --header 'Content-Type: application/json' \
-  localhost:3000/customer
+  localhost:3000/customers
 
-echo "POST /customer - add after deletion Test User, second test user should have index 4"
+echo "POST /customers - add after deletion Test User, second test user should have index 4"
 curl --data "{ \"name\":\"Test User 2\", \
   \"phone\":\"555-4562\", \
   \"contacted\":true, \
   \"role\":\"Another new Lead\", \
   \"email\":\"testuser2@udacity.com\" }" \
   --header 'Content-Type: application/json' \
-  localhost:3000/customer
+  localhost:3000/customers
