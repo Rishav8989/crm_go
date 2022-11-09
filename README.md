@@ -1,5 +1,21 @@
 # UDAcity Customer Relationship Management Backend
 
+
+
+## TLDR;
+Just run the command `go run main.go` to start an HTTP server at
+localhost:3000.
+
+## Introduction
+This is a demo project that was created for a course at you udacity.com about the language [golang](https://go.dev/).
+This application represents an HTTP server, that stores customer data. 
+This customer data can be manipulated in a CRUD session, meaning:
+- customer data can be **created**
+- customer data can be **retrieved/read**
+- customer data can be **updated**
+- customer data can be **deleted**
+
+
 ## Available Endpoints
 
 - localhost:3000/customers via "GET" method to **retrieve a list** of existing customers
