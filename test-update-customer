@@ -1,0 +1,32 @@
+#!/bin/sh
+
+
+echo "PUT /customer - Update Jane Doe's (ID3) details, but not name"
+curl -XPUT -i --data "{  \
+  \"phone\":\"555-456\", \
+  \"contacted\":true, \
+  \"role\":\"New Lead\", \
+  \"email\":\"testuser@udacity.com\" }" \
+  --header 'Content-Type: application/json' \
+  localhost:3000/customer/3
+
+echo ""
+echo "PUT /customer - Broken JSON - should return bad request (400)"
+curl -XPUT -i --data "{ \"name\":\"Test User\"\
+  \"phone\":\"555-456\", \
+  \"contacted\":true, \
+  \"role\":\"New Lead\", \
+  \"email\":\"testuser@udacity.com\" }" \
+  --header 'Content-Type: application/json' \
+  localhost:3000/customer/2
+
+echo ""
+echo "PUT /customer - Override John Doe (ID2) to Test User"
+curl -XPUT -i --data "{ \"name\":\"Test User\",\
+  \"phone\":\"555-456\", \
+  \"contacted\":true, \
+  \"role\":\"New Lead\", \
+  \"email\":\"testuser@udacity.com\" }" \
+  --header 'Content-Type: application/json' \
+  localhost:3000/customer/2
+
