@@ -80,8 +80,7 @@ func getCustomer(resp http.ResponseWriter, req *http.Request) {
 		enc.Encode(database[id_int])
 	} else {
 		resp.WriteHeader(http.StatusNotFound)
-		enc := json.NewEncoder(resp)
-		enc.Encode(database)
+		fmt.Fprintf(resp, "The customer for the given ID %v can't be found in the database", id_int)
 	}
 }
 
@@ -103,6 +102,7 @@ func createCustomer(resp http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(resp).Encode(database)
 	} else {
 		resp.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(resp, "The given JSON data could not be parsed on the server.", id_int)
 	}
 }
 
@@ -176,12 +176,13 @@ func updateCustomer(resp http.ResponseWriter, req *http.Request) {
 			updateDatabaseForID(id_int, sent_customer_data)
 
 			fmt.Println("Updated database...\n")
+			enc := json.NewEncoder(resp)
+			enc.Encode(database)
 		} else {
 			resp.WriteHeader(http.StatusBadRequest)
+			fmt.Fprintf(resp, "The given JSON data could not be parsed on the server.", id_int)
 		}
 	}
-	enc := json.NewEncoder(resp)
-	enc.Encode(database)
 }
 
 func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
@@ -192,10 +193,11 @@ func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
 	if _, ok := database[id_int]; ok {
 		resp.WriteHeader(http.StatusOK)
 		delete(database, id_int)
+		json.NewEncoder(resp).Encode(database)
 	} else {
 		resp.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(resp, "The customer for the given ID %v can't be found in the database", id_int)
 	}
-	json.NewEncoder(resp).Encode(database)
 }
 
 func listEndpoints(resp http.ResponseWriter, req *http.Request) {
