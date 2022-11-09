@@ -200,7 +200,8 @@ func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
 
 func setupRouter() *mux.Router {
 	r := mux.NewRouter()
-	r.handleFunc("/customers", getCustomers).methods("GET")
+  
+	r.HandleFunc("/customers", getCustomers).Methods("GET")
 	r.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 
 	r.HandleFunc("/customers/{id}", updateCustomer).Methods("PUT")
