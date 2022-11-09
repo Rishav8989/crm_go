@@ -102,7 +102,7 @@ func createCustomer(resp http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(resp).Encode(database)
 	} else {
 		resp.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(resp, "The given JSON data could not be parsed on the server.", id_int)
+		fmt.Fprintf(resp, "The given JSON data could not be parsed on the server.")
 	}
 }
 
