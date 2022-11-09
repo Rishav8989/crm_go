@@ -204,7 +204,7 @@ func setupRouter() *mux.Router {
 	r.HandleFunc("/customers", getCustomers).Methods("GET")
 	r.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 
-	r.HandleFunc("/customers/{id}", updateCustomer).Methods("PUT")
+	r.HandleFunc("/customers/{id}", updateCustomer).Methods("PATCH")
 
 	r.HandleFunc("/customers", createCustomer).Methods("POST")
 	r.HandleFunc("/customers/{id}", deleteCustomer).Methods("DELETE")

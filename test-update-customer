@@ -1,8 +1,8 @@
 #!/bin/sh
 
 
-echo "PUT /customers - Update Jane Doe's (ID3) details, but not name"
-curl -XPUT -i --data "{  \
+echo "PATCH /customers - Update Jane Doe's (ID3) details, but not name"
+curl -XPATCH -i --data "{  \
   \"phone\":\"555-456\", \
   \"contacted\":true, \
   \"role\":\"New Lead\", \
@@ -11,8 +11,8 @@ curl -XPUT -i --data "{  \
   localhost:3000/customers/3
 
 echo ""
-echo "PUT /customers - Broken JSON - should return bad request (400)"
-curl -XPUT -i --data "{ \"name\":\"Test User\"\
+echo "PATCH /customers - Broken JSON - should return bad request (400)"
+curl -XPATCH -i --data "{ \"name\":\"Test User\"\
   \"phone\":\"555-456\", \
   \"contacted\":true, \
   \"role\":\"New Lead\", \
@@ -21,8 +21,8 @@ curl -XPUT -i --data "{ \"name\":\"Test User\"\
   localhost:3000/customers/2
 
 echo ""
-echo "PUT /customers - Override John Doe (ID2) to Test User"
-curl -XPUT -i --data "{ \"name\":\"Test User\",\
+echo "PATCH /customers - Override John Doe (ID2) to Test User"
+curl -XPATCH -i --data "{ \"name\":\"Test User\",\
   \"phone\":\"555-456\", \
   \"contacted\":true, \
   \"role\":\"New Lead\", \
