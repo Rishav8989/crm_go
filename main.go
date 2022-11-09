@@ -200,13 +200,13 @@ func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
 
 func setupRouter() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/", getCustomers).Methods("GET")
-	r.HandleFunc("/customer/{id}", getCustomer).Methods("GET")
+	r.handlefunc("/customers", getcustomers).methods("GET")
+	r.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 
-	r.HandleFunc("/customer/{id}", updateCustomer).Methods("PUT")
+	r.HandleFunc("/customers/{id}", updateCustomer).Methods("PUT")
 
-	r.HandleFunc("/customer", createCustomer).Methods("POST")
-	r.HandleFunc("/customer/{id}", deleteCustomer).Methods("DELETE")
+	r.HandleFunc("/customers", createCustomer).Methods("POST")
+	r.HandleFunc("/customers/{id}", deleteCustomer).Methods("DELETE")
 	return r
 }
 
