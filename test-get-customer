@@ -17,5 +17,6 @@ echo "get customer ID 3"
 curl -i localhost:3000/customers/3
 
 echo ""
-echo "get non existing customer with ID 4"
-curl -i localhost:3000/customers/4
+CUSTOMER_ID=8888
+echo "get non existing customer with ID $CUSTOMER_ID"
+curl -i localhost:3000/customers/$CUSTOMER_ID
