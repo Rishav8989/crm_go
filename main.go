@@ -116,15 +116,72 @@ func unmarshalCustomerData(sent_data []byte) *Customer {
     return customer
 }
 
+func updateDatabaseForID(id int, new_customer_data *Customer) {
+  fmt.Printf("Name: %v, type: %T\n", new_customer_data.Name)
+
+  updated_name := &new_customer_data.Name
+  updated_role := &new_customer_data.Role
+  updated_email := &new_customer_data.Email
+  updated_phone := &new_customer_data.Phone
+  updated_contacted := &new_customer_data.Contacted
+
+  fmt.Printf("updated_name %v\n",updated_name)
+  fmt.Printf("updated_role  %v\n",updated_role)
+  fmt.Printf("updated_email  %v\n",updated_email)
+  fmt.Printf("updated_phone  %v\n",updated_phone)
+  fmt.Printf("updated_contacted  %v\n",updated_contacted)
+
+  existing_customer := database[id]
+  fmt.Println("Existing:", existing_customer)
+  if new_customer_data.Name != "" {
+    existing_customer.Name = new_customer_data.Name
+  } else {
+    fmt.Printf("New Customer: %v has no name\n", new_customer_data)
+  }
+
+  if new_customer_data.Role != "" {
+    existing_customer.Role = new_customer_data.Role
+  }
+
+  if new_customer_data.Email != "" {
+    existing_customer.Email = new_customer_data.Email
+  }
+
+  if new_customer_data.Phone != "" {
+    existing_customer.Phone = new_customer_data.Phone
+  }
+
+  if new_customer_data.Contacted != existing_customer.Contacted {
+    existing_customer.Contacted = new_customer_data.Contacted
+  }
+  fmt.Println("db before updating:", database)
+  database[id] = existing_customer
+  fmt.Println("db after updating:", database)
+}
+
 func updateCustomer(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "application/json")
+
 	id := mux.Vars(req)["id"]
+
 	id_int, _ := strconv.Atoi(id)
 	if _, ok := database[id_int]; ok {
-		resp.WriteHeader(http.StatusOK)
-		enc := json.NewEncoder(resp)
-		enc.Encode(database[id_int])
+
+    bytes, _ := ioutil.ReadAll(req.Body)
+    sent_customer_data := unmarshalCustomerData(bytes)
+
+    if sent_customer_data != nil {
+      resp.WriteHeader(http.StatusOK)
+      fmt.Println("Update data: %v\n", sent_customer_data)
+      updateDatabaseForID(id_int, sent_customer_data)
+
+      fmt.Println("Updated database...\n")
+    } else {
+      resp.WriteHeader(http.StatusBadRequest)
+    }
 	}
+  enc := json.NewEncoder(resp)
+  enc.Encode(database)
 }
 
 func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
@@ -146,7 +203,7 @@ func setupRouter() *mux.Router {
 	r.HandleFunc("/", getCustomers).Methods("GET")
 	r.HandleFunc("/customer/{id}", getCustomer).Methods("GET")
 
-	r.HandleFunc("/customer", updateCustomer).Methods("PUT")
+	r.HandleFunc("/customer/{id}", updateCustomer).Methods("PUT")
 
 	r.HandleFunc("/customer", createCustomer).Methods("POST")
 	r.HandleFunc("/customer/{id}", deleteCustomer).Methods("DELETE")
