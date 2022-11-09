@@ -5,17 +5,17 @@ echo "get /customers"
 curl -i localhost:3000/customers
 
 echo ""
-echo "get customer no 1"
+echo "get customer ID 1"
 curl -i localhost:3000/customers/1
 
 echo ""
-echo "get customer no 2"
+echo "get customer ID 2"
 curl -i localhost:3000/customers/2
 
 echo ""
-echo "get customer no 3"
+echo "get customer ID 3"
 curl -i localhost:3000/customers/3
 
 echo ""
-echo "get non existing customers 4"
+echo "get non existing customer with ID 4"
 curl -i localhost:3000/customers/4
