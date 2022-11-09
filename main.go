@@ -11,8 +11,8 @@ import (
 )
 
 type Customer struct {
-  ID        int 
-  Name      string `json: "name,omitempty"`
+	ID        int
+	Name      string `json: "name,omitempty"`
 	Role      string `json: "name,omitempty"`
 	Email     string `json: "name,omitempty"`
 	Phone     string `json: "name,omitempty"`
@@ -98,65 +98,65 @@ func createCustomer(resp http.ResponseWriter, req *http.Request) {
 
 	customer := unmarshalCustomerData(bytes)
 
-  if customer != nil {
-    addNewCustomer(customer)
-    json.NewEncoder(resp).Encode(database)
-  } else {
-    resp.WriteHeader(http.StatusBadRequest)
-  }
+	if customer != nil {
+		addNewCustomer(customer)
+		json.NewEncoder(resp).Encode(database)
+	} else {
+		resp.WriteHeader(http.StatusBadRequest)
+	}
 }
 
 func unmarshalCustomerData(sent_data []byte) *Customer {
-    customer := &Customer{}
-    if err := json.Unmarshal(sent_data, customer); err != nil {
-      fmt.Println("Can't unmarshal given customer:", sent_data)
-      return nil
-    }
+	customer := &Customer{}
+	if err := json.Unmarshal(sent_data, customer); err != nil {
+		fmt.Println("Can't unmarshal given customer:", sent_data)
+		return nil
+	}
 
-    return customer
+	return customer
 }
 
 func updateDatabaseForID(id int, new_customer_data *Customer) {
-  fmt.Printf("Name: %v, type: %T\n", new_customer_data.Name)
+	fmt.Printf("Name: %v, type: %T\n", new_customer_data.Name)
 
-  updated_name := &new_customer_data.Name
-  updated_role := &new_customer_data.Role
-  updated_email := &new_customer_data.Email
-  updated_phone := &new_customer_data.Phone
-  updated_contacted := &new_customer_data.Contacted
+	updated_name := &new_customer_data.Name
+	updated_role := &new_customer_data.Role
+	updated_email := &new_customer_data.Email
+	updated_phone := &new_customer_data.Phone
+	updated_contacted := &new_customer_data.Contacted
 
-  fmt.Printf("updated_name %v\n",updated_name)
-  fmt.Printf("updated_role  %v\n",updated_role)
-  fmt.Printf("updated_email  %v\n",updated_email)
-  fmt.Printf("updated_phone  %v\n",updated_phone)
-  fmt.Printf("updated_contacted  %v\n",updated_contacted)
+	fmt.Printf("updated_name %v\n", updated_name)
+	fmt.Printf("updated_role  %v\n", updated_role)
+	fmt.Printf("updated_email  %v\n", updated_email)
+	fmt.Printf("updated_phone  %v\n", updated_phone)
+	fmt.Printf("updated_contacted  %v\n", updated_contacted)
 
-  existing_customer := database[id]
-  fmt.Println("Existing:", existing_customer)
-  if new_customer_data.Name != "" {
-    existing_customer.Name = new_customer_data.Name
-  } else {
-    fmt.Printf("New Customer: %v has no name\n", new_customer_data)
-  }
+	existing_customer := database[id]
+	fmt.Println("Existing:", existing_customer)
+	if new_customer_data.Name != "" {
+		existing_customer.Name = new_customer_data.Name
+	} else {
+		fmt.Printf("New Customer: %v has no name\n", new_customer_data)
+	}
 
-  if new_customer_data.Role != "" {
-    existing_customer.Role = new_customer_data.Role
-  }
+	if new_customer_data.Role != "" {
+		existing_customer.Role = new_customer_data.Role
+	}
 
-  if new_customer_data.Email != "" {
-    existing_customer.Email = new_customer_data.Email
-  }
+	if new_customer_data.Email != "" {
+		existing_customer.Email = new_customer_data.Email
+	}
 
-  if new_customer_data.Phone != "" {
-    existing_customer.Phone = new_customer_data.Phone
-  }
+	if new_customer_data.Phone != "" {
+		existing_customer.Phone = new_customer_data.Phone
+	}
 
-  if new_customer_data.Contacted != existing_customer.Contacted {
-    existing_customer.Contacted = new_customer_data.Contacted
-  }
-  fmt.Println("db before updating:", database)
-  database[id] = existing_customer
-  fmt.Println("db after updating:", database)
+	if new_customer_data.Contacted != existing_customer.Contacted {
+		existing_customer.Contacted = new_customer_data.Contacted
+	}
+	fmt.Println("db before updating:", database)
+	database[id] = existing_customer
+	fmt.Println("db after updating:", database)
 }
 
 func updateCustomer(resp http.ResponseWriter, req *http.Request) {
@@ -167,21 +167,21 @@ func updateCustomer(resp http.ResponseWriter, req *http.Request) {
 	id_int, _ := strconv.Atoi(id)
 	if _, ok := database[id_int]; ok {
 
-    bytes, _ := ioutil.ReadAll(req.Body)
-    sent_customer_data := unmarshalCustomerData(bytes)
+		bytes, _ := ioutil.ReadAll(req.Body)
+		sent_customer_data := unmarshalCustomerData(bytes)
 
-    if sent_customer_data != nil {
-      resp.WriteHeader(http.StatusOK)
-      fmt.Println("Update data: %v\n", sent_customer_data)
-      updateDatabaseForID(id_int, sent_customer_data)
+		if sent_customer_data != nil {
+			resp.WriteHeader(http.StatusOK)
+			fmt.Println("Update data: %v\n", sent_customer_data)
+			updateDatabaseForID(id_int, sent_customer_data)
 
-      fmt.Println("Updated database...\n")
-    } else {
-      resp.WriteHeader(http.StatusBadRequest)
-    }
+			fmt.Println("Updated database...\n")
+		} else {
+			resp.WriteHeader(http.StatusBadRequest)
+		}
 	}
-  enc := json.NewEncoder(resp)
-  enc.Encode(database)
+	enc := json.NewEncoder(resp)
+	enc.Encode(database)
 }
 
 func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
@@ -191,29 +191,29 @@ func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
 
 	if _, ok := database[id_int]; ok {
 		resp.WriteHeader(http.StatusOK)
-    delete(database, id_int)
+		delete(database, id_int)
 	} else {
 		resp.WriteHeader(http.StatusNotFound)
-  }
-  json.NewEncoder(resp).Encode(database)
+	}
+	json.NewEncoder(resp).Encode(database)
 }
 
 func listEndpoints(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("Content-type", "text/html;charset=utf-8")
-  fmt.Fprintf(resp, "<h1>List of existing endpoints</h1>\n")
-  fmt.Fprintf(resp, "<ul>\n")
-  fmt.Fprintf(resp, "<li>/ - to list all endpoints</li>")
-  fmt.Fprintf(resp, "<li>/customers (GET) - to list all customers in the database</li>")
-  fmt.Fprintf(resp, "<li>/customers/{id} (GET) - to list a specific customer in the database by its ID</li>")
-  fmt.Fprintf(resp, "<li>/customers/{id} (PATCH) - to update specific customer's data in the database by its ID</li>")
-  fmt.Fprintf(resp, "<li>/customers (POST) - to create a new customer in the database</li>")
-  fmt.Fprintf(resp, "<li>/customers/{id} (DELETE) - to delete a specific customer from the database by its ID<</li>")
-  fmt.Fprintf(resp, "</ul>")
+	fmt.Fprintf(resp, "<h1>List of existing endpoints</h1>\n")
+	fmt.Fprintf(resp, "<ul>\n")
+	fmt.Fprintf(resp, "<li>/ - to list all endpoints</li>")
+	fmt.Fprintf(resp, "<li>/customers (GET) - to list all customers in the database</li>")
+	fmt.Fprintf(resp, "<li>/customers/{id} (GET) - to list a specific customer in the database by its ID</li>")
+	fmt.Fprintf(resp, "<li>/customers/{id} (PATCH) - to update specific customer's data in the database by its ID</li>")
+	fmt.Fprintf(resp, "<li>/customers (POST) - to create a new customer in the database</li>")
+	fmt.Fprintf(resp, "<li>/customers/{id} (DELETE) - to delete a specific customer from the database by its ID<</li>")
+	fmt.Fprintf(resp, "</ul>")
 }
 
 func setupRouter() *mux.Router {
 	r := mux.NewRouter()
-  
+
 	r.HandleFunc("/", listEndpoints).Methods("GET")
 	r.HandleFunc("/customers", getCustomers).Methods("GET")
 	r.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
