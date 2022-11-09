@@ -18,6 +18,7 @@ This customer data can be manipulated in a CRUD session, meaning:
 - customer data can be **deleted**
 
 A customer has the following fields in the database:
+- id (A customer's database internal identifier, this identifier is handled internally and can't be changed)
 - name (A customers first and last name - String)
 - phone (Contact information about the customer - String)
 - contacted (A yes/no - true/false entry about whether the customer has been contacted yet)
