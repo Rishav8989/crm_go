@@ -198,9 +198,23 @@ func deleteCustomer(resp http.ResponseWriter, req *http.Request) {
   json.NewEncoder(resp).Encode(database)
 }
 
+func listEndpoints(resp http.ResponseWriter, req *http.Request) {
+	resp.Header().Set("Content-type", "text/html;charset=utf-8")
+  fmt.Fprintf(resp, "<h1>List of existing endpoints</h1>\n")
+  fmt.Fprintf(resp, "<ul>\n")
+  fmt.Fprintf(resp, "<li>/ - to list all endpoints</li>")
+  fmt.Fprintf(resp, "<li>/customers (GET) - to list all customers in the database</li>")
+  fmt.Fprintf(resp, "<li>/customers/{id} (GET) - to list a specific customer in the database by its ID</li>")
+  fmt.Fprintf(resp, "<li>/customers/{id} (PATCH) - to update specific customer's data in the database by its ID</li>")
+  fmt.Fprintf(resp, "<li>/customers (POST) - to create a new customer in the database</li>")
+  fmt.Fprintf(resp, "<li>/customers/{id} (DELETE) - to delete a specific customer from the database by its ID<</li>")
+  fmt.Fprintf(resp, "</ul>")
+}
+
 func setupRouter() *mux.Router {
 	r := mux.NewRouter()
   
+	r.HandleFunc("/", listEndpoints).Methods("GET")
 	r.HandleFunc("/customers", getCustomers).Methods("GET")
 	r.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 
