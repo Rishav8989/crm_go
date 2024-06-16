@@ -3,48 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
-
-type Customer struct {
-	ID        int
-	Name      string `json: "name,omitempty"`
-	Role      string `json: "name,omitempty"`
-	Email     string `json: "name,omitempty"`
-	Phone     string `json: "name,omitempty"`
-	Contacted bool   `json: "name,omitempty"`
-}
-
-var database = map[int]Customer{
-	1: Customer{
-		ID:        1,
-		Name:      "Michael J",
-		Role:      "Student",
-		Email:     "Michael@udacity.com",
-		Phone:     "555-Nase",
-		Contacted: true,
-	},
-	2: Customer{
-		ID:        2,
-		Name:      "John Doe",
-		Role:      "Engineer",
-		Email:     "JohnD@udacity.com",
-		Phone:     "555-123456789",
-		Contacted: false,
-	},
-	3: Customer{
-		ID:        3,
-		Name:      "Jane Doe",
-		Role:      "Data Scientist",
-		Email:     "JaneD@udacity.com",
-		Phone:     "555-97654321",
-		Contacted: false,
-	},
-}
 
 func findNextIndex() int {
 	index := 1
